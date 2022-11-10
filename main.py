@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from models import Cliente
 
@@ -27,7 +27,7 @@ db: list[Cliente] = [
 
 @app.get("/")
 def root():
-    return {"message": "Hello World"}
+    return {"mensagem": "Hello world"}
 
 @app.get("/api/v1/clientes")
 def listar_clientes():
@@ -43,4 +43,8 @@ def remover_cliente(cliente_id: UUID):
     for cliente in db:
         if cliente.id == cliente_id:
             db.remove(cliente)
-            return "Cliente removido do banco de dados"
+            return "Cliente removido da base de dados"
+    raise HTTPException(
+        status_code=404,
+        detail=f"Cliente com id: {cliente_id} não existe"
+    )
