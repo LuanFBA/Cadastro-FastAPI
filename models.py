@@ -1,21 +1,13 @@
-from typing import Optional
-from uuid import UUID, uuid4
+from sqlalchemy import Column, Integer, String
 
-from pydantic import BaseModel, Field
-
-
-class Cliente(BaseModel):
-    id: Optional[UUID] = uuid4()
-    nome: str = Field(min_length=3, max_length=20)
-    sobrenome: Optional[str] = None
-    cpf: str = Field(min_length=11, max_length=14)
-    telefone: Optional[str] = None
-    email: str = Field(min_length=7, max_length=100)
+from database import Base
 
 
-class ClienteUpdate(BaseModel):
-    nome: Optional[str]
-    sobrenome: Optional[str]
-    cpf: Optional[str]
-    telefone: Optional[str]
-    email: Optional[str]
+class Cliente(Base):
+    __tablespace__ = "cliente"
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String, index=True)
+    sobrenome = Column(String, index=True)
+    cpf = Column(String, unique=True, index=True)
+    telefone = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
