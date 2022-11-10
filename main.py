@@ -37,3 +37,10 @@ def listar_clientes():
 def cadastrar_cliente(cliente: Cliente):
     db.append(cliente)
     return {"id": cliente.id}
+
+@app.delete("/api/v1/clientes/{cliente_id}")
+def remover_cliente(cliente_id: UUID):
+    for cliente in db:
+        if cliente.id == cliente_id:
+            db.remove(cliente)
+            return "Cliente removido do banco de dados"
