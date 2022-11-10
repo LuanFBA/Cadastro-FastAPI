@@ -2,7 +2,7 @@ from uuid import UUID
 
 from fastapi import FastAPI, HTTPException
 
-from models import Cliente
+from models import Cliente, ClienteUpdate
 
 app = FastAPI()
 
@@ -43,7 +43,27 @@ def remover_cliente(cliente_id: UUID):
     for cliente in db:
         if cliente.id == cliente_id:
             db.remove(cliente)
-            return "Cliente removido da base de dados"
+            return "Cliente removido"
+    raise HTTPException(
+        status_code=404,
+        detail=f"Cliente com id: {cliente_id} não existe"
+    )
+
+@app.put("/api/v1/clientes/{cliente_id}")
+def alterar_cliente(cliente_update: ClienteUpdate, cliente_id: UUID):
+    for cliente in db:
+        if cliente.id == cliente_id:
+            if cliente_update.nome is not None:
+                cliente.nome = cliente_update.nome
+            if cliente_update.sobrenome is not None:
+                cliente.sobrenome = cliente_update.sobrenome
+            if cliente_update.cpf is not None:
+                cliente.cpf = cliente_update.cpf
+            if cliente_update.telefone is not None:
+                cliente.telefone = cliente_update.telefone
+            if cliente_update.email is not None:
+                cliente.email = cliente_update.email
+            return "Cliente alterado"
     raise HTTPException(
         status_code=404,
         detail=f"Cliente com id: {cliente_id} não existe"
