@@ -4,7 +4,7 @@ from database import Base
 
 
 class Cliente(Base):
-    __tablespace__ = "cliente"
+    __tablename__ = "cliente"
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, index=True)
     sobrenome = Column(String, index=True)
