@@ -21,3 +21,4 @@ def remover_cliente(db: Session, cliente_id:int):
     cli = obter_cliente(db=db, cliente_id=cliente_id)
     db.delete(cli)
     db.commit()
+    return "Cliente excluído com sucesso"
