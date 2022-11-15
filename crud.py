@@ -1,7 +1,6 @@
-from sqlalchemy.orm import Session
-
 import models
 import schemas
+from sqlalchemy.orm import Session
 
 
 def obter_cliente(db: Session, cliente_id: int):
@@ -22,3 +21,13 @@ def remover_cliente(db: Session, cliente_id:int):
     db.delete(cli)
     db.commit()
     return "Cliente excluído com sucesso"
+
+def criar_usuario(db: Session, usuario: schemas.Usuario):
+    user = models.Usuario(**usuario.dict())
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+def obter_usuario_por_email(db: Session, usuario_email: str):
+    return db.query(models.Usuario).filter(models.Usuario.email == usuario_email).first()
