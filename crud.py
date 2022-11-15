@@ -10,24 +10,24 @@ def listar_clientes(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Cliente).offset(skip).limit(limit).all()
 
 def cadastrar_cliente(db: Session, cliente: schemas.Cliente):
-    cli = models.Cliente(**cliente.dict())
-    db.add(cli)
+    cliente = models.Cliente(**cliente.dict())
+    db.add(cliente)
     db.commit()
-    db.refresh(cli)
-    return cli
+    db.refresh(cliente)
+    return cliente
 
 def remover_cliente(db: Session, cliente_id:int):
-    cli = obter_cliente(db=db, cliente_id=cliente_id)
-    db.delete(cli)
+    cliente = obter_cliente(db=db, cliente_id=cliente_id)
+    db.delete(cliente)
     db.commit()
     return "Cliente excluído com sucesso"
 
 def criar_usuario(db: Session, usuario: schemas.Usuario):
-    user = models.Usuario(**usuario.dict())
-    db.add(user)
+    usuario = models.Usuario(**usuario.dict())
+    db.add(usuario)
     db.commit()
-    db.refresh(user)
-    return user
+    db.refresh(usuario)
+    return usuario
 
 def obter_usuario_por_email(db: Session, usuario_email: str):
     return db.query(models.Usuario).filter(models.Usuario.email == usuario_email).first()
